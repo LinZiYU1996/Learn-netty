@@ -47,6 +47,7 @@ public class HttpHelloWorldServerHandler extends SimpleChannelInboundHandler<Htt
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
+
         User user = new User();
         user.setUserName("sanshengshui");
         user.setDate(new Date());

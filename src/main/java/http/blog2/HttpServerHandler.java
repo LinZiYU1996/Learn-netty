@@ -33,29 +33,6 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
 
-    protected void messageReceived(ChannelHandlerContext ctx,
-                                   FullHttpRequest fullHttpRequest) throws Exception {
-        // 构造返回数据
-        JSONObject jsonRootObj = new JSONObject();
-        JSONObject jsonUserInfo = new JSONObject();
-        jsonUserInfo.put("id", 1);
-        jsonUserInfo.put("name", "张三");
-        jsonUserInfo.put("password", "123");
-        jsonRootObj.put("userInfo", jsonUserInfo);
-        // 获取传递的数据
-        Map<String, Object> params = getParamsFromChannel(ctx, fullHttpRequest);
-        jsonRootObj.put("params", params);
-
-        FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK);
-        response.headers().set(CONTENT_TYPE, "application/json; charset=UTF-8");
-        StringBuilder bufRespose = new StringBuilder();
-        bufRespose.append(jsonRootObj.toJSONString());
-        ByteBuf buffer = Unpooled.copiedBuffer(bufRespose, CharsetUtil.UTF_8);
-        response.content().writeBytes(buffer);
-        buffer.release();
-        ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
-    }
-
     /**
      * 获取传递的参数
      *

@@ -80,6 +80,21 @@
             <version>4.1.48.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-serial</artifactId>
+            <!-- <version>2.0.0.Final</version> --> <!-- 需要JDK1.8支持 -->
+            <version>1.4.11.Final</version> <!-- 需要JDK1.7支持 -->
+        </dependency>
+        <dependency>
+        <groupId>org.jboss.marshalling</groupId>
+        <artifactId>jboss-marshalling</artifactId>
+        <version>1.4.11.Final</version>
+
+
+
+        </dependency>
+
     </dependencies>
 
 
