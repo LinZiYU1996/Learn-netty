@@ -10,7 +10,17 @@ package codec.LengthFieldBasedFrameDecoder_TEST.pacl1;
  */
 public class ProtocolA {
 
-//    private int magic_cod = 0xadaf0115;
+    private byte codes;
+
+    public byte getCodes() {
+        return codes;
+    }
+
+    public void setCodes(byte codes) {
+        this.codes = codes;
+    }
+
+    //    private int magic_cod = 0xadaf0115;
 
     private int length;
 

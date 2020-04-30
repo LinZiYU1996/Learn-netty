@@ -18,13 +18,8 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-//        ProtocolA a = (ProtocolA) msg;
-
         ByteBuf buf = (ByteBuf) msg;
-//        System.out.println(buf.readInt());
-
         test1(buf);
-//        System.out.println(buf.readInt());
         while (buf.isReadable()) {
             System.out.print((char)buf.readByte());
         }
@@ -38,6 +33,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     }
 }
 
+//  len + content
 //0 4 0 4
 //decode
 //11

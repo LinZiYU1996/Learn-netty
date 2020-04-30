@@ -38,9 +38,9 @@ public class Server {
 
                             ChannelPipeline p = socketChannel.pipeline();
                             p.addLast(new ProtocolADecoder(1024*1024*5,
+                                    2,
+                                    3,
                                     0,
-                                    4,
-                                    -4,
                                     0));
                             p.addLast(new ProtocolAEncoder());
                             p.addLast(new ServerHandler());
