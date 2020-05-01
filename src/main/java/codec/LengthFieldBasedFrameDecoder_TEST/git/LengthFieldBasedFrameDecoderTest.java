@@ -24,7 +24,9 @@ public class LengthFieldBasedFrameDecoderTest {
 
     public static void main(String[] args) {
 
-        new LengthFieldBasedFrameDecoderTest().testDiscardTooLongFrame1();
+//        new LengthFieldBasedFrameDecoderTest().testDiscardTooLongFrame1();
+
+        test_lengthFieldOffset();
     }
 
 
@@ -207,7 +209,7 @@ public class LengthFieldBasedFrameDecoderTest {
     }
 
     @Test
-    public void test_lengthFieldOffset() {
+    public static void test_lengthFieldOffset() {
         ByteBuf buf = Unpooled.buffer();
         buf.writeInt(32);
         for (int i = 0; i < 32; i++) {
