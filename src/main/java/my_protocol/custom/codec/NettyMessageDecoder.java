@@ -82,8 +82,4 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
         }
         return message;
     }
-
-
-
-
 }

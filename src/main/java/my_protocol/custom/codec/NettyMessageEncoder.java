@@ -81,8 +81,5 @@ public class NettyMessageEncoder extends MessageToByteEncoder<NettyMessage> {
         //第一个参数是长度属性的索引位置
         sendBuf.setInt(4, sendBuf.readableBytes() - 8);
 
-
-
-
     }
 }
