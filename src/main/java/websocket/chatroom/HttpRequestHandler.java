@@ -18,6 +18,7 @@ import java.net.URL;
  * \* Description:
  * \
  */
+//扩展 SimpleChannel-InboundHandler 以处理FullHttpRequest 消息
 public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     private final String wsUri;
@@ -26,7 +27,7 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
     static {
         URL location = HttpRequestHandler.class.getProtectionDomain().getCodeSource().getLocation();
         try {
-            String path = location.toURI() + "WebsocketChatClient.html";
+            String path = location.toURI() + "index.html";
             path = !path.contains("file:") ? path : path.substring(5);
             INDEX = new File(path);
         } catch (URISyntaxException e) {
@@ -40,34 +41,35 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
-        if (wsUri.equalsIgnoreCase(request.uri())) {
-            ctx.fireChannelRead(request.retain()); // （2）
+
+        if (wsUri.equalsIgnoreCase(request.uri())) {//如果请求了 WebSocket协议升级，则增加引用 计数（调用retain()方法），并将它传递给下一个ChannelInboundHandler
+            ctx.fireChannelRead(request.retain()); //
         } else {
-            if (HttpUtil.is100ContinueExpected(request)) {
-                send100Continue(ctx); // （3）
+            if (HttpUtil.is100ContinueExpected(request)) {//处理 100 Continue请求以符合 HTTP 1.1 规范
+                send100Continue(ctx); //
             }
 
-            RandomAccessFile file = new RandomAccessFile(INDEX, "r");// （4）
+            RandomAccessFile file = new RandomAccessFile(INDEX, "r");//
 
             HttpResponse response = new DefaultHttpResponse(request.protocolVersion(), HttpResponseStatus.OK);
             response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html; charset=UTF-8");
 
             boolean keepAlive = HttpUtil.isKeepAlive(request);
 
-            if (keepAlive) { // （5）
+            if (keepAlive) { //如果请求了keep-alive，则添加所需要的HTTP 头信息
                 response.headers().set(HttpHeaderNames.CONTENT_LENGTH, file.length());
                 response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
             }
-            ctx.write(response); // （6）
+            ctx.write(response); //将 HttpResponse写到客户端
 
-            if (ctx.pipeline().get(SslHandler.class) == null) { // （7）
+            if (ctx.pipeline().get(SslHandler.class) == null) { //将 index.html写到客户端
                 ctx.write(new DefaultFileRegion(file.getChannel(), 0, file.length()));
             } else {
                 ctx.write(new ChunkedNioFile(file.getChannel()));
             }
-            ChannelFuture future = ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);// （8）
-            if (!keepAlive) {
-                future.addListener(ChannelFutureListener.CLOSE); // （9）
+            ChannelFuture future = ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);//写LastHttpContent并冲刷至客户端
+            if (!keepAlive) {//如果没有请求keep-alive，则在写操作完成后关闭 Channel
+                future.addListener(ChannelFutureListener.CLOSE); //
             }
 
             file.close();

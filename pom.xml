@@ -63,7 +63,11 @@
 
 
 
-
+        <dependency>
+            <groupId>com.cloudhopper</groupId>
+            <artifactId>ch-commons-util</artifactId>
+            <version>6.0.4</version>
+        </dependency>
 
 
         <dependency>
