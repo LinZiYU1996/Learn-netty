@@ -1,7 +1,7 @@
 JMH S 24 weixin.hashMap.test.Test S 58 weixin.hashMap.test.generated.Test_forEachEntrySet_jmhTest S 15 forEachEntrySet S 10 Throughput E A 1 1 1 E I 1 2 T 3 1 s E I 1 5 T 3 3 s E I 1 1 E E E E E E U 12 MILLISECONDS E E 
 JMH S 24 weixin.hashMap.test.Test S 52 weixin.hashMap.test.generated.Test_streamApi_jmhTest S 9 streamApi S 10 Throughput E A 1 1 1 E I 1 2 T 3 1 s E I 1 5 T 3 3 s E I 1 1 E E E E E E U 12 MILLISECONDS E E 
+JMH S 24 weixin.hashMap.test.Test S 49 weixin.hashMap.test.generated.Test_lambda_jmhTest S 6 lambda S 10 Throughput E A 1 1 1 E I 1 2 T 3 1 s E I 1 5 T 3 3 s E I 1 1 E E E E E E U 12 MILLISECONDS E E 
 JMH S 24 weixin.hashMap.test.Test S 60 weixin.hashMap.test.generated.Test_parallelStreamApi_jmhTest S 17 parallelStreamApi S 10 Throughput E A 1 1 1 E I 1 2 T 3 1 s E I 1 5 T 3 3 s E I 1 1 E E E E E E U 12 MILLISECONDS E E 
-JMH S 24 weixin.hashMap.test.Test S 51 weixin.hashMap.test.generated.Test_entrySet_jmhTest S 8 entrySet S 10 Throughput E A 1 1 1 E I 1 2 T 3 1 s E I 1 5 T 3 3 s E I 1 1 E E E E E E U 12 MILLISECONDS E E 
 JMH S 24 weixin.hashMap.test.Test S 56 weixin.hashMap.test.generated.Test_forEachKeySet_jmhTest S 13 forEachKeySet S 10 Throughput E A 1 1 1 E I 1 2 T 3 1 s E I 1 5 T 3 3 s E I 1 1 E E E E E E U 12 MILLISECONDS E E 
 JMH S 24 weixin.hashMap.test.Test S 49 weixin.hashMap.test.generated.Test_keySet_jmhTest S 6 keySet S 10 Throughput E A 1 1 1 E I 1 2 T 3 1 s E I 1 5 T 3 3 s E I 1 1 E E E E E E U 12 MILLISECONDS E E 
-JMH S 24 weixin.hashMap.test.Test S 49 weixin.hashMap.test.generated.Test_lambda_jmhTest S 6 lambda S 10 Throughput E A 1 1 1 E I 1 2 T 3 1 s E I 1 5 T 3 3 s E I 1 1 E E E E E E U 12 MILLISECONDS E E 
+JMH S 24 weixin.hashMap.test.Test S 51 weixin.hashMap.test.generated.Test_entrySet_jmhTest S 8 entrySet S 10 Throughput E A 1 1 1 E I 1 2 T 3 1 s E I 1 5 T 3 3 s E I 1 1 E E E E E E U 12 MILLISECONDS E E 
