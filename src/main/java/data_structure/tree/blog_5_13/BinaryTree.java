@@ -1,5 +1,7 @@
 package data_structure.tree.blog_5_13;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -27,9 +29,6 @@ public class BinaryTree {
             // 对于顺序存储的完全二叉树，如果某个节点的索引为index，其对应的左子树的索引为2*index+1，右子树为2*index+1
             treeNode.left = createBinaryTree(array, 2 * index + 1);
             treeNode.right = createBinaryTree(array, 2 * index + 2);
-        }
-        if (treeNode != null) {
-            System.out.println(treeNode.data);
         }
         return treeNode;
 
@@ -85,9 +84,9 @@ public class BinaryTree {
                 if (node.left != null) {
                     stack.push(node.left);
                 }
-
             }
         }
+
     }
 
     // 中序遍历
@@ -130,6 +129,110 @@ public class BinaryTree {
         }
     }
 
+    // 二叉树 层次遍历
+    public void levelOrder(TreeNode node) {
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(node);
+        TreeNode p;
+        while ( !queue.isEmpty()) {
+
+            p = queue.poll();
+            showData(p);
+
+            if (p.left != null) {
+                queue.add(p.left);
+            }
+
+            if (p.right != null) {
+                queue.add(p.right);
+            }
+
+        }
+
+    }
+
+    // 求二叉树中节点个数
+    public int NodeCount(TreeNode node) {
+
+        int n1, n2;
+
+        if (node == null) {
+            return 0;
+        } else {
+
+            n1 = NodeCount(node.left);
+            n2 = NodeCount(node.right);
+            return (n1 + n2 + 1);
+        }
+
+
+    }
+
+
+    public int BTHeight(TreeNode node) {
+
+        int l, r;
+
+        if (node == null) {
+            return 0;
+        } else {
+
+            l = BTHeight(node.left);
+            r = BTHeight(node.right);
+
+            return l > r ? l + 1 : r + 1;
+
+        }
+
+
+
+
+    }
+
+
+    public void insertNode(TreeNode node, TreeNode one) {
+
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.add(node);
+
+        TreeNode p;
+
+        while ( !queue.isEmpty()) {
+
+            p = queue.poll();
+            if ( p.left == null) {
+                p.left = one;
+                return;
+            }
+
+            if ( p.right == null) {
+                p.right = one;
+                return;
+            }
+
+            if (p.left != null) {
+                queue.add(p.left);
+            }
+
+            if (p.right != null) {
+                queue.add(p.right);
+            }
+
+
+        }
+
+
+    }
+
+
+    public void delete(int d) {
+
+
+
+    }
+
     public static void main(String[] args)
     {
         //顺序存储的满二叉树或者完全二叉树
@@ -153,6 +256,36 @@ public class BinaryTree {
         System.out.println("非递归后序遍历：");
         bt.noRecursionPostOrder(bt.root);
 
+        System.out.println();
+        System.out.println("层次遍历: \n");
+        bt.levelOrder(bt.root);
+
+
+        System.out.println("\n===============================================");
+
+        System.out.println(bt.NodeCount(bt.root));
+
+        System.out.println("\n===============================================");
+
+
+        System.out.println(bt.BTHeight(bt.root));
+
+        bt.insertNode(bt.root, new TreeNode(100));
+
+        bt.insertNode(bt.root, new TreeNode(1001));
+
+
+        bt.insertNode(bt.root, new TreeNode(10001));
+
+        System.out.println("\n===============================================");
+
+        System.out.println("层次遍历: \n");
+        bt.levelOrder(bt.root);
+        System.out.println("\n===============================================");
+
+
+        System.out.println("递归前序遍历：");
+        bt.preOrder(bt.root);
     }
 
 }
