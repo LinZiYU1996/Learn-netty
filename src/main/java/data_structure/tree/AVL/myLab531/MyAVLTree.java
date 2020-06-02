@@ -1,6 +1,10 @@
 package data_structure.tree.AVL.myLab531;
 
-import data_structure.tree.AVL.bolg521.AVLTree;
+
+import data_structure.tree.AVL.myLab531.try61.BTreePrinter;
+import org.junit.Test;
+
+import java.util.Stack;
 
 /**
  * \* Created with IntelliJ IDEA.
@@ -13,12 +17,12 @@ import data_structure.tree.AVL.bolg521.AVLTree;
 public class MyAVLTree<T extends Comparable<T>> {
 
     // AVL树的节点(内部类)
-    private class MyNode<T extends Comparable<T>>  {
-        T key;                // 关键字(键值)
-        int height;         // 高度
-        int balance;
-        MyNode<T> left;    // 左孩子
-        MyNode<T> right;    // 右孩子
+    public class MyNode<T extends Comparable<T>>  {
+       public T key;                // 关键字(键值)
+        public int height;         // 高度
+        public int balance;
+        public MyNode<T> left;    // 左孩子
+        public  MyNode<T> right;    // 右孩子
 
         /*
         几个组成对象:
@@ -37,16 +41,85 @@ public class MyAVLTree<T extends Comparable<T>> {
 
     }
 
-    private MyNode<T> root;    // 根结点
+    /**
+     * 使用树形结构显示
+     */
+    public void displayTree(MyAVLTree.MyNode root){
+        Stack globalStack=new Stack();
+        globalStack.push(root);
+        // int nBlank=32;
+        int nBlank=32;
+        boolean isRowEmpty=false;
+        String dot="............................";
+        System.out.println(dot+dot+dot);
+        while (isRowEmpty==false){
+            Stack localStack=new Stack();
+            isRowEmpty=true;
+            for (int j=0;j<nBlank;j++)//{
+            {
 
-    private MyAVLTree() {
+                System.out.print("-");
+            }
+            while (globalStack.isEmpty()==false){
+                //里面的while循环用于查看全局的栈是否为空
+                MyAVLTree.MyNode temp=(MyAVLTree.MyNode)globalStack.pop();
+                if (temp!=null){
+                    System.out.print(temp.key);
+
+                    localStack.push(temp.left);
+                    localStack.push(temp.right);
+                    //如果当前的节点下面还有子节点，则必须要进行下一层的循环
+                    if (temp.left!=null||temp.right!=null){
+                        isRowEmpty=false;
+
+                    }
+                }else {
+                    //如果全局的栈则不为空
+                    System.out.print(" #! ");
+                    localStack.push(null);
+                    localStack.push(null);
+
+                }
+
+
+                //打印一些空格
+                for (int j=0;j<nBlank*2-2;j++){
+                    //System.out.print("&");
+                    System.out.print(" ");
+                }
+
+
+
+
+            }//while end
+
+
+            System.out.println();
+            nBlank/=2;
+            //这个while循环用来判断，local栈是否为空,不为空的话，则取出来放入全局栈中
+            while (localStack.isEmpty()==false){
+                globalStack.push(localStack.pop());
+            }
+
+            // }
+        }//大while循环结束之后，输出换行
+        System.out.println(dot+dot+dot);
+
+    }
+
+
+
+
+    public MyNode<T> root;    // 根结点
+
+    public MyAVLTree() {
         root = null;
     }
 
     /*
      * 获取树的高度
      */
-    private int height(MyNode<T> tree) {
+    public int height(MyNode<T> tree) {
         if (tree != null)
             return tree.height;
 
@@ -63,18 +136,18 @@ public class MyAVLTree<T extends Comparable<T>> {
     /*
      * 比较两个值的大小
      */
-    private int max(int a, int b) {
+    public int max(int a, int b) {
         return a>b ? a : b;
     }
 
 
-    private void insert(T value) {
+    public void insert(T value) {
 
         root = insert(root, value);
 
     }
 
-    private MyNode<T> insert(MyNode<T> tree, T value) {
+    public MyNode<T> insert(MyNode<T> tree, T value) {
 
         if (tree == null ){
 
@@ -110,7 +183,7 @@ public class MyAVLTree<T extends Comparable<T>> {
 
 
 
-    private void inOrder(MyNode<T> tree) {
+    public void inOrder(MyNode<T> tree) {
 
         if (tree != null) {
             inOrder(tree.left);
@@ -166,7 +239,7 @@ public class MyAVLTree<T extends Comparable<T>> {
     }
 
 
-    private  void writeArray(MyNode currNode, int rowIndex, int columnIndex, String[][] res, int treeDepth) {
+    public  void writeArray(MyNode currNode, int rowIndex, int columnIndex, String[][] res, int treeDepth) {
         // 保证输入的树不为空
         if (currNode == null) return;
         // 先将当前节点保存到二维数组中
@@ -193,6 +266,22 @@ public class MyAVLTree<T extends Comparable<T>> {
     }
 
 
+//
+//          @Test
+//        public void test1() {
+//
+//            int[] arr = {5,3,1,4,8};
+//            MyAVLTree<Integer> tree = new MyAVLTree<>();
+//            int i;
+//
+//            for(i=0; i<arr.length; i++) {
+//                tree.insert(arr[i]);
+//            }
+//
+//            tree.show(tree.root);
+//
+//
+//        }
 
 
 
@@ -207,16 +296,18 @@ public class MyAVLTree<T extends Comparable<T>> {
         for(i=0; i<arr.length; i++) {
             System.out.printf("%d ", arr[i]);
             tree.insert(arr[i]);
+
+
         }
 
-        System.out.println("\n=========================================\n");
+//        System.out.println("\n=========================================\n");
+//
+//        tree.inOrder(tree.root);
+//
+//        System.out.println("\n=========================================\n");
 
-        tree.inOrder(tree.root);
 
-        System.out.println("\n=========================================\n");
-
-        tree.show(tree.root);
-
+        BTreePrinter.printNode(tree.root);
 
 
     }
