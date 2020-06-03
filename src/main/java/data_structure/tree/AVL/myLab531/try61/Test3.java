@@ -2,17 +2,15 @@ package data_structure.tree.AVL.myLab531.try61;
 
 import data_structure.tree.AVL.myLab531.MyAVLTree;
 
-import java.util.Stack;
-
 /**
  * \* Created with IntelliJ IDEA.
  * \* User: LinZiYu
- * \* Date: 2020/6/1
- * \* Time: 22:24
+ * \* Date: 2020/6/2
+ * \* Time: 22:04
  * \* Description:
  * \
  */
-public class Test {
+public class Test3 {
 
 
     /*
@@ -57,33 +55,41 @@ public class Test {
         setBalance(k1,k2);
         return k1;
     }
+    /*
+     * RR：右右对应的情况(右单旋转)。
+     *
+     * 返回值：旋转后的根节点
+     */
+    public static MyAVLTree.MyNode rightRightRotation(MyAVLTree.MyNode k1) {
+        MyAVLTree.MyNode k2;
 
-    public static void print(MyAVLTree.MyNode root) {
+        k2 = k1.right;
+        k1.right = k2.left;
+        k2.left = k1;
 
-        if (root != null) {
+        k1.height = Math.max( height(k1.left), height(k1.right)) + 1;
+        k2.height = Math.max( height(k2.right), k1.height) + 1;
 
-            System.out.println(root.balance);
-            print(root.left);
-            print(root.right);
-
-        }
-
-
+        setBalance(k1, k2);
+        return k2;
     }
 
-    public static void adjustBalance(MyAVLTree.MyNode root) {
-        if (root != null) {
-            setBalance(root);
-            adjustBalance(root.left);
-            adjustBalance(root.right);
-        }
+    /*
+     * LR：左右对应的情况(左双旋转)。
+     *
+     * 返回值：旋转后的根节点
+     */
+    public static MyAVLTree.MyNode leftRightRotation(MyAVLTree.MyNode k3) {
+        k3.left = rightRightRotation(k3.left);
+
+        return leftLeftRotation(k3);
     }
-
-
 
     public static void main(String[] args) {
-        int[] arr = {12,10,6,5,9,11,20};
+
+        int[] arr = {15,9,6,12,10,14,20};
         MyAVLTree<Integer> tree = new MyAVLTree<>();
+
         int i;
 
         for(i=0; i<arr.length; i++) {
@@ -91,19 +97,21 @@ public class Test {
 
         }
         System.out.println("\n=========================================\n");
-        BTreePrinter.printNode(tree.root);
-
-
-        System.out.println("\n=========================================\n");
-
-        tree.root = leftLeftRotation(tree.root);
-
-
-        System.out.println("\n=========================================\n");
-
 
         BTreePrinter.printNode(tree.root);
+
+
         System.out.println("\n=========================================\n");
+
+        tree.root = leftRightRotation(tree.root);
+
+
+        BTreePrinter.printNode(tree.root);
+
+        System.out.println("\n=========================================\n");
+
 
     }
+
+
 }
