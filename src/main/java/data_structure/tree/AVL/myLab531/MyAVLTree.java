@@ -2,9 +2,13 @@ package data_structure.tree.AVL.myLab531;
 
 
 import data_structure.tree.AVL.myLab531.try61.BTreePrinter;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.Stack;
+
+import static data_structure.tree.AVL.myLab531.try61.Test3.*;
+import static data_structure.tree.AVL.myLab531.try61.Test4.rightLeftRotation;
 
 /**
  * \* Created with IntelliJ IDEA.
@@ -14,6 +18,8 @@ import java.util.Stack;
  * \* Description:
  * \
  */
+
+@Slf4j
 public class MyAVLTree<T extends Comparable<T>> {
 
     // AVL树的节点(内部类)
@@ -180,6 +186,131 @@ public class MyAVLTree<T extends Comparable<T>> {
 
         return tree;
     }
+
+
+    public MyNode<T> remove(MyNode<T> tree, MyNode<T> z) {
+        // 根为空 或者 没有要删除的节点，直接返回null。
+        if (tree==null || z==null)
+            return null;
+
+        int cmp = z.key.compareTo(tree.key);
+        if (cmp < 0) {        // 待删除的节点在"tree的左子树"中
+            log.info("cmp < 0");
+            tree.left = remove(tree.left, z);
+            // 删除节点后，若AVL树失去平衡，则进行相应的调节。
+            if (height(tree.right) - height(tree.left) == 2) {
+                log.info(tree.key + "");
+                MyNode<T> r =  tree.right;
+                if (height(r.left) > height(r.right))
+                    tree = rightLeftRotation(tree);
+                else
+                    tree = rightRightRotation(tree);
+            }
+        } else if (cmp > 0) {    // 待删除的节点在"tree的右子树"中
+            log.info("cmp > 0)");
+            tree.right = remove(tree.right, z);
+            // 删除节点后，若AVL树失去平衡，则进行相应的调节。
+            if (height(tree.left) - height(tree.right) == 2) {
+                log.info(tree.key + "");
+                MyNode<T> l =  tree.left;
+                if (height(l.right) > height(l.left))
+                    tree = leftRightRotation(tree);
+                else
+                    tree = leftLeftRotation(tree);
+            }
+        } else {    // tree是对应要删除的节点。
+            log.info(tree.key + "{}");
+            if ((tree.left!=null) && (tree.right!=null)) {
+                if (height(tree.left) > height(tree.right)) {
+                    log.info("如果tree的左子树比右子树高");
+                    // 如果tree的左子树比右子树高；
+                    // 则(01)找出tree的左子树中的最大节点
+                    //   (02)将该最大节点的值赋值给tree。
+                    //   (03)删除该最大节点。
+                    // 这类似于用"tree的左子树中最大节点"做"tree"的替身；
+                    // 采用这种方式的好处是：删除"tree的左子树中最大节点"之后，AVL树仍然是平衡的。
+                    MyNode<T> max = maximum(tree.left);
+                    tree.key = max.key;
+                    tree.left = remove(tree.left, max);
+                } else {
+                    log.info("如果tree的左子树不比右子树高(即它们相等，或右子树比左子树高1)");
+                    // 如果tree的左子树不比右子树高(即它们相等，或右子树比左子树高1)
+                    // 则(01)找出tree的右子树中的最小节点
+                    //   (02)将该最小节点的值赋值给tree。
+                    //   (03)删除该最小节点。
+                    // 这类似于用"tree的右子树中最小节点"做"tree"的替身；
+                    // 采用这种方式的好处是：删除"tree的右子树中最小节点"之后，AVL树仍然是平衡的。
+                    MyNode<T> min = maximum(tree.right);
+                    tree.key = min.key;
+                    tree.right = remove(tree.right, min);
+                }
+            } else {
+                log.info(" else ");
+                MyNode<T> tmp = tree;
+                tree = (tree.left!=null) ? tree.left : tree.right;
+                tmp = null;
+            }
+        }
+
+        return tree;
+    }
+
+
+    /*
+     * 查找最大结点：返回tree为根结点的AVL树的最大结点。
+     */
+    private MyNode<T> maximum(MyNode<T> tree) {
+        if (tree == null)
+            return null;
+
+        while(tree.right != null)
+            tree = tree.right;
+        return tree;
+    }
+
+
+
+
+    public MyNode remove(T key) {
+        MyNode<T> z = null;
+
+        z = search(root, key);
+        root = remove(root, z);
+        return root;
+    }
+
+
+    public MyNode removeROOT(MyNode roots,T key) {
+        MyNode<T> z = null;
+
+        z = search(roots, key);
+        roots = remove(roots, z);
+        return roots;
+    }
+
+
+
+    /*
+     * (递归实现)查找"AVL树x"中键值为key的节点
+     */
+    private MyNode<T> search(MyNode<T> x, T key) {
+        if (x==null)
+            return x;
+
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0)
+            return search(x.left, key);
+        else if (cmp > 0)
+            return search(x.right, key);
+        else
+            return x;
+    }
+
+    public MyNode<T> search(T key) {
+        return search(root, key);
+    }
+
+
 
 
 

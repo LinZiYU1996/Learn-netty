@@ -87,7 +87,7 @@ public class Test3 {
 
     public static void main(String[] args) {
 
-        int[] arr = {15,9,6,12,10,14,20};
+        int[] arr = {10,9,8,7,12,20};
         MyAVLTree<Integer> tree = new MyAVLTree<>();
 
         int i;
@@ -103,7 +103,7 @@ public class Test3 {
 
         System.out.println("\n=========================================\n");
 
-        tree.root = leftRightRotation(tree.root);
+//        tree.root = leftRightRotation(tree.root);
 
 
         BTreePrinter.printNode(tree.root);

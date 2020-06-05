@@ -1,5 +1,7 @@
 package data_structure.tree.AVL.bolg521;
 
+import data_structure.tree.AVL.myLab531.try61.BTreePrinter;
+
 /**
  * \* Created with IntelliJ IDEA.
  * \* User: LinZiYu
@@ -529,7 +531,7 @@ public class AVLTree<T extends Comparable<T>> {
         }
     }
 
-    private static int arr[]= {3,2,1,4,5,6,7,16,15,14,13,12,11,10,8,9};
+    private static int arr[]= {10,9,8,7,12,20};
 
     public static void main(String[] args) {
 
@@ -563,6 +565,10 @@ public class AVLTree<T extends Comparable<T>> {
 
 
         tree.show(tree.mRoot);
+        System.out.println("\n=========================================\n");
+
+
+
     }
 
 
