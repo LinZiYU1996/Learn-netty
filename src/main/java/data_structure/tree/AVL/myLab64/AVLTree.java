@@ -1,5 +1,7 @@
 package data_structure.tree.AVL.myLab64;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * \* Created with IntelliJ IDEA.
  * \* User: LinZiYu
@@ -8,6 +10,8 @@ package data_structure.tree.AVL.myLab64;
  * \* Description:
  * \
  */
+
+@Slf4j
 public class AVLTree {
 
 
@@ -47,22 +51,31 @@ public class AVLTree {
 
     private void delete(Node_64 node) {
         if (node.left == null && node.right == null) {
+            log.info("node.left == null && node.right == null");
+
             if (node.parent == null) root = null;
             else {
                 Node_64 parent = node.parent;
                 if (parent.left == node) {
                     parent.left = null;
                 } else parent.right = null;
+
+                BTreePrinter.printNode(root);
+
                 rebalance(parent);
             }
             return;
         }
         if (node.left != null) {
+            log.info("node.left != null");
+
             Node_64 child = node.left;
             while (child.right != null) child = child.right;
             node.key = child.key;
             delete(child);
         } else {
+            log.info("node.right != null");
+
             Node_64 child = node.right;
             while (child.left != null) child = child.left;
             node.key = child.key;
@@ -90,16 +103,28 @@ public class AVLTree {
         setBalance(n);
 
         if (n.balance == -2) {
-            if (height(n.left.left) >= height(n.left.right))
+            log.info(n.key +"{}");
+            if (height(n.left.left) >= height(n.left.right)) {
+                log.info("height(n.left.left) >= height(n.left.right)");
+
                 n = rotateRight(n);
-            else
+            } else {
+
+                log.info("height(n.left.left) < height(n.left.right)");
+
                 n = rotateLeftThenRight(n);
+            }
 
         } else if (n.balance == 2) {
-            if (height(n.right.right) >= height(n.right.left))
+            log.info(n.key +"{}");
+
+            if (height(n.right.right) >= height(n.right.left)) {
+                log.info("n.right.right) >= height(n.right.left");
                 n = rotateLeft(n);
-            else
+            } else {
+                log.info("n.right.right) < height(n.right.left");
                 n = rotateRightThenLeft(n);
+            }
         }
 
         if (n.parent != null) {
@@ -227,13 +252,22 @@ public class AVLTree {
 
     public static void main(String[] args) {
         AVLTree tree = new AVLTree();
-
+        int[] arr = {12,5,3,8,6,9,25,13,20};
+        int i;
         System.out.println("Inserting values 1 to 10");
-        for (int i = 1; i < 10; i++)
-            tree.insert(i);
+        for ( i = 0; i < arr.length; i++)
+            tree.insert(arr[i]);
 
         System.out.print("Printing balance: ");
         tree.printBalance();
+
+        System.out.println("\n================================================\n");
+        System.out.println("\n================================================\n");
+        System.out.println("\n================================================\n");
+
+        BTreePrinter.printNode(tree.root);
+
+        tree.delete(12);
 
         System.out.println("\n================================================\n");
         System.out.println("\n================================================\n");

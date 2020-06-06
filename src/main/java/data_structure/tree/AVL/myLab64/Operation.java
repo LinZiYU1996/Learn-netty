@@ -2,6 +2,11 @@ package data_structure.tree.AVL.myLab64;
 
 import lombok.extern.slf4j.Slf4j;
 
+import static data_structure.tree.AVL.myLab64.T1.rotateRight;
+import static data_structure.tree.AVL.myLab64.T2.rotateLeft;
+import static data_structure.tree.AVL.myLab64.T3.rotateRightThenLeft;
+import static data_structure.tree.AVL.myLab64.T4.rotateLeftThenRight;
+
 /**
  * \* Created with IntelliJ IDEA.
  * \* User: LinZiYu
@@ -65,6 +70,79 @@ public class Operation {
         return n.height;
     }
 
+
+
+
+
+    public static void delete(Node_64 node) {
+        if (node.left == null && node.right == null) {
+            log.info("node.left == null && node.right == null");
+            if (node.parent == null) root = null;
+            else {
+                Node_64 parent = node.parent;
+                if (parent.left == node) {
+                    parent.left = null;
+                } else parent.right = null;
+                rebalance(parent);
+            }
+            return;
+        }
+        if (node.left != null) {
+            log.info("node.left != null");
+            Node_64 child = node.left;
+            while (child.right != null) child = child.right;
+            node.key = child.key;
+            delete(child);
+        } else {
+            log.info("node.right != null");
+            Node_64 child = node.right;
+            while (child.left != null) child = child.left;
+            node.key = child.key;
+            delete(child);
+        }
+    }
+
+    public static void delete(int delKey) {
+        if (root == null)
+            return;
+        Node_64 node = root;
+        Node_64 child = root;
+
+        while (child != null) {
+            node = child;
+            child = delKey >= node.key ? node.right : node.left;
+            if (delKey == node.key) {
+                delete(node);
+                return;
+            }
+        }
+    }
+
+    public static void rebalance(Node_64 n) {
+        setBalance(n);
+
+        if (n.balance == -2) {
+            if (height(n.left.left) >= height(n.left.right)) {
+                log.info("height(n.left.left) >= height(n.left.right)");
+                n = rotateRight(n);
+            } else {
+                log.info("height(n.left.left) < height(n.left.right)");
+                n = rotateLeftThenRight(n);
+            }
+
+        } else if (n.balance == 2) {
+            if (height(n.right.right) >= height(n.right.left))
+                n = rotateLeft(n);
+            else
+                n = rotateRightThenLeft(n);
+        }
+
+        if (n.parent != null) {
+            rebalance(n.parent);
+        } else {
+            root = n;
+        }
+    }
 
 
 
