@@ -13,7 +13,7 @@ import java.util.Random;
 public class SearchTree {
 
 
-    private TreeNode root;
+    public TreeNode root;
 
 
     //添加节点（递归模式）

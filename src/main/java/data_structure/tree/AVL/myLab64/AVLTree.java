@@ -66,6 +66,10 @@ public class AVLTree {
             }
             return;
         }
+        // 从左子树 找出一个点
+        // 比右子树里面的都小
+        // 但是要比左子树 其它节点都大
+        // 那肯定找最深那个右子树的结点
         if (node.left != null) {
             log.info("node.left != null");
 
@@ -102,6 +106,8 @@ public class AVLTree {
     private void rebalance(Node_64 n) {
         setBalance(n);
 
+
+        // 左子树 里面 的结点 偏多了
         if (n.balance == -2) {
             log.info(n.key +"{}");
             if (height(n.left.left) >= height(n.left.right)) {
@@ -243,7 +249,7 @@ public class AVLTree {
 
         // key is greater than root's key
         if (root.key > key)
-            return searchHelper(root.left, key); // call the function on the node's left child
+        return searchHelper(root.left, key); // call the function on the node's left child
 
         // key is less than root's key then
         //call the function on the node's right child as it is greater
